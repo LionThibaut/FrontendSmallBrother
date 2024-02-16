@@ -1,0 +1,27 @@
+<!-- Login View -->
+<section class="loginForm">
+  <mat-card>
+    <mat-toolbar color="primary">Vous avez déjà un compte ? Connectez-vous !</mat-toolbar>
+    <!-- Login Form -->
+    <form fxLayoutAlign="stretch" fxLayout="column" class="login-form" [formGroup]="form" (ngSubmit)="sendLogin()">
+      <div *ngIf="invalidLogin" class="alert alert-danger" >
+        Invalid connexion
+      </div>
+      <!-- Input mail -->
+      <mat-form-field>
+        <input formControlName="mail" type ="text" matInput placeholder="Mail" id="mail" name="mail">
+      </mat-form-field>
+      <!-- Input password -->
+      <mat-form-field>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" matInput type="password" placeholder="Mot de passe" id="password" name="password">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <button mat-raised-button type="submit" [disabled]="form.invalid">Se connecter</button>
+      <div>
+        Pas encore de compte? <a routerLink="/register">Créer un compte</a>
+      </div>
+    </form>
+  </mat-card>
+</section>

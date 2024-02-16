@@ -1,0 +1,67 @@
+<!-- Page for Register -->
+<section class="registerForm">
+  <mat-card>
+    <mat-toolbar color="primary">Devenez membre de SmallBrother</mat-toolbar>
+    <!-- Form for Register -->
+    <form fxLayoutAlign="stretch" fxLayout="column" class="login-form" [formGroup]="form" (ngSubmit)="emitRegisterForm()">
+      <!--      Name-->
+      <mat-form-field>
+        <input formControlName="firstName" type ="text" matInput placeholder="Prénom" name="firstName" id="firstName">
+      </mat-form-field>
+
+      <!--      Prenom-->
+      <mat-form-field>
+        <input formControlName="lastName" matInput type="text" placeholder="Nom">
+      </mat-form-field>
+
+      <!--      Sexe-->
+      <mat-label class="GreyText">Genre</mat-label>
+      <mat-radio-group aria-label="Sexe" formControlName="gender">
+        <mat-radio-button value="1">H</mat-radio-button>
+        <mat-radio-button value="2">F </mat-radio-button>
+      </mat-radio-group>
+      <div>
+        <br>
+      </div>
+      <!--      Mot de passe-->
+      <mat-form-field>
+        <input matInput [type]="hide ? 'hashedPassword' : 'text'" formControlName="hashedPassword" matInput type="password" placeholder="Mot de passe">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!--      Mail-->
+      <mat-form-field>
+        <input formControlName="mail" matInput type="email" placeholder="Mail" ngModel>
+        <mat-error *ngIf="form.hasError('required','mail')">
+          Merci d'introduire un email valide.
+        </mat-error>
+      </mat-form-field>
+
+      <!--      Téléphone-->
+      <mat-form-field>
+        <input formControlName="phoneNumber" matInput type="text" placeholder="Tél">
+        <mat-error *ngIf="form.hasError('required','phoneNumber')">
+          Merci d'introduire un numéro de téléphone belge valide.
+        </mat-error>
+        <mat-error *ngIf="form.hasError('pattern','phoneNumber')">
+          Pas bon
+        </mat-error>
+      </mat-form-field>
+
+      <!--      Ville-->
+      <mat-form-field appearance="fill">
+        <mat-label>Ville de résidence</mat-label>
+        <mat-select formControlName="town">
+          <mat-option>Aucune</mat-option>
+          <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button type="submit" [disabled]="form.invalid" >S'inscrire</button>
+    </form>
+    <div>
+      Vous avez déjà un compte? <a routerLink="/Visitor_login">Connectez vous</a>
+    </div>
+  </mat-card>
+</section>

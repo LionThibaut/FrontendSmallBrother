@@ -1,0 +1,121 @@
+.section
+{
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.home_main_page{
+  height: 100%;
+ }
+
+.home_exemple_page{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.container_button_EnVoirPlus{
+  margin-top: 5em;
+}
+
+.button_en_voir_plus{
+  width: 10em;
+}
+
+.home_main_page{
+  height: 100%;
+}
+
+.home_container{
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home_text{
+  position: relative;
+  max-width: 600px;
+  margin-left: 10%;
+  margin-top: 50px;
+
+}
+
+.home_img{
+  width:600px;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 5%;
+  margin-top: 50px;
+}
+
+.home_img img{
+  width: 120%;
+  height: auto;
+}
+
+.lefttitle{
+  color:#876445;
+}
+
+.righttitle{
+  color:#CA965C;
+}
+
+.titre{
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+.home_text h2{
+  color: #333;
+  font-size: 4vw;
+  line-height: 1.4em;
+  font-weight: 500;
+}
+
+.brun{
+  color: #876445;
+  background-color: #876445;
+}
+
+.example-card {
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba2.jpg');
+  background-size: cover;
+}
+
+.imgCard{
+  height: 200px;
+}
+
+/*Use for responsive*/
+@media (max-width: 991px){
+  .home_container
+  {
+    flex-direction: column;
+  }
+  .home_img
+  {
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0;
+    margin-top: 10px;
+  }
+
+  .home_img img{
+     width: 50%;
+     height: auto;
+   }
+}
+

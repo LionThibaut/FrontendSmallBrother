@@ -1,0 +1,147 @@
+<!-- Disparition feed  -->
+<section class="feed_main_page">
+  <div class="feed_container py-5">
+    <div class = "centered">
+      <h1>Animaux retrouvés</h1>
+    </div>
+    <div class="container align-items-center">
+      <h3>Mes posts</h3>
+      <div *ngIf="alertSuppression" class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Le post</strong> a été supprimé.
+        <button type="button" (click)="closeAlert()" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <a mat-raised-button (click)="openModal()" class="brownbutton"> <mat-icon>add_to_photos</mat-icon> Poster un animal aperçu</a>
+      <div *ngIf="animals.length==0">
+        Vous n'avez pas de posts relatif à un animal aperçu. Pensez à en créer un!
+      </div>
+      <div class="row"  *ngIf="animals.length">
+        <pagination-controls (pageChange)="p= $event"></pagination-controls>
+        <mat-card class="example-card col-sm" *ngFor="let animal of animals | paginate: {itemsPerPage: 4, currentPage: p}">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image" style="background-image: url({{animal.urlImage}});">
+            </div>
+            <mat-card-title>Animal aperçu</mat-card-title>
+            <mat-card-subtitle>{{animal.typeAnimal}} {{animal.breed}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{animal.descriptionAnimal}}</p>
+            <p>Statut:
+              Aperçu
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button (click)="deleteSeenAnimal(animal.idAnimal)"><mat-icon>where_to_vote</mat-icon>Supprimer post</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+      <div class="modal" style="z-index: 11" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">
+                <div *ngIf="alertAddDisparition" class="alert alert-success" role="alert">
+                  L'animal à bien été déclaré apercu
+                </div>
+                <div *ngIf="!alertAddDisparition">
+                  Déclarer une apparition d'animal
+                </div>
+              </h4>
+              <button type="button" class="close" aria-label="Close" (click)="onCloseHandled(); closeAlert()"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+              <form class="row g-2" [formGroup]="form" (ngSubmit)="addAnimalToProfile()">
+                <div class="mb-2">
+                  <label> Nom de l'animal</label>
+                  <input formControlName="name" type="text" class="form-control" id="nameAnimal" placeholder="Nom de l'animal">
+                </div>
+                <div class="mb-2">
+                  <label> Type d'animal</label>
+                  <input formControlName="type" type="text" class="form-control" id="typeAnimal" placeholder="Type de l'animal">
+                </div>
+                <div class="mb-2">
+                  <label> Race de l'animal</label>
+                  <input formControlName="breed" type="text" class="form-control" id="breedAnimal" placeholder="Race de l'animal">
+                </div>
+                <label>Votre animal à t'il une puce?</label>
+                <mat-radio-group aria-label="Votre animal est-il pucé?" formControlName="tag">
+                  <mat-radio-button value="1">Oui</mat-radio-button>
+                  <mat-radio-button value="2">Non</mat-radio-button>
+                </mat-radio-group>
+                <label>Genre de l'animal </label>
+                <mat-radio-group aria-label="Genre de l'animal" formControlName="gender">
+                  <mat-radio-button value="M">Mâle</mat-radio-button>
+                  <mat-radio-button value="F">Femelle</mat-radio-button>
+                </mat-radio-group>
+                <mat-form-field appearance="fill">
+                <mat-label>Lieu de disparition</mat-label>
+                <mat-select style="z-index:12" formControlName="town" formControlName="townDisparition">
+                  <mat-option>Aucune</mat-option>
+                  <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+                </mat-select>
+                </mat-form-field>
+                <div class="mb-2">
+                  <label>Description de l'animal</label>
+                  <textarea class="form-control" id="descripitionAnimal" rows="3" formControlName="description"></textarea>
+                </div>
+                <div class="mb-2">
+                  <label> Photo de l'animal</label>
+                  <input formControlName="urlImage" type="text" class="form-control" id="urlImage" placeholder="URL de la photo de l'animal">
+                </div>
+                <div class="mb-2">
+                  <button type="submit" class="btn btn-primary mb-3" [disabled]="form.invalid">Soumettre</button>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" (click)="onCloseHandled()" >Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="posts.length" class="row">
+      <div *ngFor="let post of posts" class="col-xl-6 col-sm-6">
+        <div class="card">
+          <div class="row g-0">
+            <div class="col-sm-6 cardImg">
+              <img src="{{post.animalPost.urlImage}}" class="card-img-top h-100" alt="...">
+            </div>
+            <div class="col-sm-6">
+              <div class="card-body">
+                <div class="card-title"><strong>{{post.animalPost.typeAnimal}} </strong>retrouvé à <strong>{{post.townDisparition}}</strong> le <strong>{{post.datePost}}</strong></div>
+                <div class="card-text">
+                  <table class="table">
+                    <tbody>
+                    <tr>
+                      <td scope="row">Sexe</td>
+                      <td>
+                        <span *ngIf="post.animalPost.gender=='M'">Mâle</span>
+                        <span *ngIf="post.animalPost.gender=='F'">Femelle</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td scope="row">Race</td>
+                      <td>{{post.animalPost.breed}}</td>
+                    </tr>
+                    <tr>
+                      <td scope="row">Taille</td>
+                      <td>{{post.animalPost.height}} (cm)</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex gap-2 pt-4">
+              <button type="button" class="btn btn-soft-primary btn-sm w-50" (click)="showDisparitionPostDescription(post.descriptionPost)">Description <mat-icon>attachment</mat-icon></button>
+              <a class="btn btn-primary btn-sm w-50" href="mailto:{{post.animalPost.clientAnimalPost.mail}}?Subject=Animal retrouvé&body=Ceci est un mail contactant Mr./Mm {{post.animalPost.clientAnimalPost.firstName}} {{post.animalPost.clientAnimalPost.lastName}}" target="_blank"><i class="bx bx-message-square-dots me-1"></i>Contact 	<mat-icon> mail_outline</mat-icon></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+

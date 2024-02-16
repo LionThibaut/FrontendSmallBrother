@@ -1,0 +1,172 @@
+<!-- Display of the animals of the user-->
+<div class="container align-items-center">
+  <h3>Mes animaux</h3>
+  <!-- Alert suppression -->
+  <div *ngIf="alertSuppression" class="alert alert-success" role="alert">
+    Votre animal à bien été supprimé
+      <button type="button" (click)="closeAlert()" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <a mat-raised-button class="brownbutton"(click)="openModal()"> <mat-icon>add_to_photos</mat-icon>Ajouter un animal</a>
+  <!-- Modal d'ajout -->
+  <div class="modal" style="z-index:11" tabindex="1" role="dialog"  [ngStyle]="{'display':display}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div *ngIf="alertAddAnimal" class="alert alert-success" role="alert">
+            Votre animal à été ajouté
+          </div>
+          <div *ngIf="!alertAddAnimal" class="modal-title">
+            Ajouter un animal
+          </div>
+          <button type="button" class="close" aria-label="Close" (click)="onCloseHandled(); closeAlert()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <!-- Fodal for add animal to profile-->
+        <div class="modal-body">
+          <form class="row g-2" [formGroup]="form" (ngSubmit)="addAnimalToProfile()">
+            <div class="mb-2">
+              <label> Nom de l'animal</label>
+              <input formControlName="name" type="text" class="form-control" id="nameAnimal" placeholder="Nom de l'animal">
+            </div>
+
+            <div class="mb-2">
+              <label> Type d'animal</label>
+              <input formControlName="type" type="text" class="form-control" id="typeAnimal" placeholder="Type de l'animal">
+            </div>
+
+            <div class="mb-2">
+              <label> Race de l'animal</label>
+              <input formControlName="breed" type="text" class="form-control" id="breedAnimal" placeholder="Race de l'animal">
+            </div>
+
+            <label>Votre animal à t'il une puce?</label>
+            <mat-radio-group aria-label="Votre animal est-il pucé?" formControlName="tag">
+              <mat-radio-button value="1">Oui</mat-radio-button>
+              <mat-radio-button value="2">Non</mat-radio-button>
+            </mat-radio-group>
+
+            <mat-form-field style="z-index:12" appearance="fill">
+              <mat-label>Choose a date</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="birth">
+              <mat-hint>YYYY/MM/DD</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <label style="z-index:12"> Taille de l'animal</label>
+            <mat-form-field appearance="fill">
+              <mat-label>Taille en centimètre</mat-label>
+              <mat-select formControlName="height">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let taille of tailles" [value]="taille">{{taille}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <label>Genre de l'animal </label>
+            <mat-radio-group aria-label="Genre de l'animal" formControlName="gender">
+              <mat-radio-button value="M">Mâle</mat-radio-button>
+              <mat-radio-button value="F">Femelle</mat-radio-button>
+            </mat-radio-group>
+
+            <div class="mb-2">
+              <label>Description de l'animal</label>
+              <textarea class="form-control" id="descripitionAnimal" rows="3" formControlName="description"></textarea>
+            </div>
+
+            <div class="mb-2">
+              <label> Photo de l'animal</label>
+              <input formControlName="urlImage" type="text" class="form-control" id="urlImage" placeholder="URL de la photo de l'animal">
+            </div>
+
+            <div class="mb-2">
+              <button type="submit" class="btn btn-primary mb-3" [disabled]="form.invalid">Soumettre</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onCloseHandled()" >Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="animals.length<=0">
+    Vous n'avez pas encore d'animaux à votre liste... pensez à en rajouter!
+  </div>
+
+  <!-- Paginator with the display of the animals -->
+  <div class="row"  *ngIf="animals.length">
+    <pagination-controls (pageChange)="p= $event"></pagination-controls>
+    <mat-card class="example-card col-sm" *ngFor="let animal of animals | paginate: {itemsPerPage: 4, currentPage: p}">
+      <mat-card-header>
+        <img
+          src="{{animal.urlImage}}"
+          alt=""
+          style="width: 45px; height: 45px"
+          class="rounded-circle"
+        />
+        <mat-card-title>{{animal.nameAnimal}}</mat-card-title>
+        <mat-card-subtitle>{{animal.typeAnimal}} {{animal.breed}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{animal.descriptionAnimal}}</p>
+        <p>Statut:
+          <span *ngIf="animal.statutAnimal=='P'">Perdu</span>
+          <span *ngIf="animal.statutAnimal=='N'">Au chaud</span>
+        </p>
+      </mat-card-content>
+
+      <!-- List of action on the list -->
+      <mat-card-actions>
+        <span *ngIf="animal.statutAnimal=='P'"><button mat-raised-button (click)="declareAtHome(animal.idAnimal)"><mat-icon> not_listed_location</mat-icon>Déclarer retrouvé</button></span>
+        <span *ngIf="animal.statutAnimal=='N'"><button mat-raised-button (click)="openModal2(animal.idAnimal)"><mat-icon> not_listed_location</mat-icon>Déclarer perdu</button></span>
+        <!-- Modal déclaration perdu -->
+        <div class="modal" style="z-index:11" tabindex="1" role="dialog"  [ngStyle]="{'display':display2}">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">
+                  <div *ngIf="alertAddAnimal" class="alert alert-success" role="alert">
+                    Votre animal à été déclaré perdu
+                  </div>
+                  <div *ngIf="!alertAddAnimal">
+                    Déclarer mon animal perdu
+                  </div>
+                </h4>
+                <button type="button" class="close" aria-label="Close" (click)="onCloseHandled(); closeAlert()"><span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <form class="row g-2" [formGroup]="formDisparu">
+                  <div mat-dialog-content class="mat-typography">
+                    <div class="mb-2">
+                      <mat-form-field style="width: 300px">
+                        <textarea matInput placeholder="Description" formControlName="descriptionPost"></textarea>
+                      </mat-form-field>
+                    </div>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Lieu de disparition</mat-label>
+                      <mat-select style="z-index:12" formControlName="town" formControlName="townDisparition">
+                        <mat-option>Aucune</mat-option>
+                        <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <p>Voulez-vous confirmer la disparation de votre animal?</p>
+                  </div>
+                  <div mat-dialog-actions>
+                    <button mat-button mat-dialog-close>Non</button>
+                    <button mat-button mat-dialog-close cdkFocusInitial (click)="confirmAnimalDisparition()">Oui</button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="onCloseHandled(); closeAlert()" >Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button mat-raised-button (click)="deleteAnimal(animal.idAnimal); ">Supprimer <mat-icon>delete_outline</mat-icon></button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

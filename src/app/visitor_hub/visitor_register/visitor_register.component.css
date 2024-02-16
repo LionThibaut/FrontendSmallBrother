@@ -1,0 +1,23 @@
+
+.mat-card{
+  width: 80%;
+}
+
+.login-form{
+  padding: 20px;
+}
+
+.registerForm
+{
+  position: relative;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.GreyText{
+  opacity: 50%;
+  font-size: 90%;
+}

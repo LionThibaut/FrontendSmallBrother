@@ -1,0 +1,17 @@
+<!-- Navigation Bar // On every page, adaptive with the rank of the User -->
+<div class="Navbar fixed-top" style="z-index:10">
+  <mat-toolbar  class="mat-elevation-z6 rouge">
+    <span><mat-icon>nature_people</mat-icon>SmallBrother</span>
+    <div class="spacer"></div>
+    <a *ngIf="_authGuard.isConnected() == false && !_adminGuard.isAdmin()" mat-raised-button routerLink="/home" routerLinkActive="active" class="brownbutton">Accueil 	<mat-icon>home</mat-icon></a>
+    <a *ngIf="_authGuard.isConnected() == false && !_adminGuard.isAdmin()" mat-raised-button routerLink="/register" routerLinkActive="active" class="brownbutton">Inscription <mat-icon>how_to_reg</mat-icon></a>
+    <a *ngIf="_authGuard.isConnected() == false && !_adminGuard.isAdmin()" mat-raised-button routerLink="/visitor_login" routerLinkActive="active" class="brownbutton">Connexion 	<mat-icon> vpn_key</mat-icon></a>
+    <a  *ngIf="_authGuard.isConnected() == true || _adminGuard.isAdmin()" mat-raised-button color="profile" routerLink="/user_profile" routerLinkActive="active">Profile <mat-icon>face</mat-icon></a>
+    <a *ngIf="_authGuard.isConnected() == true || _adminGuard.isAdmin()" mat-raised-button color="warn" routerLink="/animal" routerLinkActive="active">Animaux perdus <mat-icon>error_outline</mat-icon></a>
+    <a *ngIf="_authGuard.isConnected() == true || _adminGuard.isAdmin()" mat-raised-button color="warn" routerLink="/foundAnimals" routerLinkActive="active">Animaux retrouvés <mat-icon>remove_red_eye</mat-icon></a>
+    <a *ngIf="_adminGuard.isAdmin() == true" mat-raised-button color="profile" routerLink="/admin" routerLinkActive="active">Admin <mat-icon>developer_mode</mat-icon></a>
+    <a *ngIf="_authGuard.isConnected() == true|| _adminGuard.isAdmin()" mat-raised-button color="profile" (click)="logOut()">Déconnexion <mat-icon>exit_to_app</mat-icon></a>
+  </mat-toolbar>
+</div>
+<router-outlet></router-outlet>
+

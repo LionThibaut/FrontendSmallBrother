@@ -1,0 +1,25 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #876445;
+}
+
+a{
+  margin-left: 2%;
+  width: auto;
+}
+
+/*Use for change value in angular material*/
+/deep/ mat-toolbar.rouge{
+  background-color: #CA965C;
+}
+
+/deep/ a.mat-raised-button.brownbutton{
+  background-color: #876445;
+  color: white;
+}

@@ -1,0 +1,56 @@
+<!-- Top of the home page -->
+<section class="home_main_page">
+  <div class="home_container">
+    <div class = "home_text">
+      <h2>Bienvenue sur le site
+        <span class="titre">
+        <span class = "lefttitle">Small</span><span class = "righttitle">Brother</span>
+        </span>
+      </h2>
+      <p>
+        SmallBrother est un service dédié aux animaux perdus/trouvés dans la région de Mons.
+        Grâce à son site internet et à son application Android, mettez toutes les chances de votre côté
+        pour retrouver votre animal sain et sauf.
+      </p>
+      <!-- Scroll Button -->
+      <a mat-raised-button class="brownbutton" (click)="scrollToElement(target)"><mat-icon>keyboard_arrow_down</mat-icon> Découvrir <mat-icon>keyboard_arrow_down</mat-icon></a>
+    </div>
+    <div class="home_img">
+      <img src="./assets/Image/Removal-281.png">
+    </div>
+  </div>
+</section>
+
+<!-- Exemple of posts in home page -->
+<section #target class="home_exemple_page">
+  <div class="container align-items-center">
+    <div *ngIf="posts.length" class="row">
+      <div *ngFor="let post of posts" class="col-sm">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image" style="background-image:url('{{post.animalPost.clientAnimalPost.urlImage}}')"></div>
+            <mat-card-title>{{post.animalPost.nameAnimal}} <br>
+              {{post.animalPost.typeAnimal}}
+              <span *ngIf="post.animalPost.statutAnimal=='P'">Perdu</span>
+              <span *ngIf="post.animalPost.statutAnimal=='R'">Retrouvé</span>
+            </mat-card-title>
+            <mat-card-subtitle>{{post.animalPost.breed}}</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image class="imgCard" src="{{post.animalPost.urlImage}}" alt="Photo of a Shiba Inu">
+          <mat-card-content>
+            <p>
+              <span *ngIf="post.animalPost.statutAnimal=='P'">Perdu</span>
+              <span *ngIf="post.animalPost.statutAnimal=='R'">Retrouvé</span>
+              à {{post.townDisparition}} le {{post.datePost}}.<br>
+              {{post.descriptionPost}}
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <!-- Bottom of the home page -->
+      <div class="text-center container_button_EnVoirPlus">
+        <a mat-raised-button class="brownbutton button_en_voir_plus" routerLink="/visitor_login" routerLinkActive="active"> En voir plus <mat-icon> publish</mat-icon></a>
+      </div>
+    </div>
+  </div>
+</section>

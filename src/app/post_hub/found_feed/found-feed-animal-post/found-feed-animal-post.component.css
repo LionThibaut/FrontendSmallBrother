@@ -1,0 +1,42 @@
+.centered{
+  align-items: center;
+  text-align: center;
+  margin-bottom:5em ;
+}
+
+.row{
+  width: 100%;
+  max-width: 100%;
+}
+h1{
+  padding-top: 5vh;
+  color: #CA965C;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 5em;
+  text-shadow: 0.2vh 0.2vh 0.2vh #876445;
+}
+
+.card {
+  margin-bottom: 24px;
+  box-shadow: 0 2px 3px #e4e8f0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid #eff0f2;
+  border-radius: 1rem;
+}
+
+img{
+
+  height:100%;
+}
+
+.cardImg{
+
+  height:250px;
+}
